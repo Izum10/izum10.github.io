@@ -3,7 +3,15 @@
 <!--[if IE 9 ]><html class="no-js oldie ie9" lang="en"> <![endif]-->
 <!--[if (gte IE 9)|!(IE)]><!--><html class="no-js" lang="en"> <!--<![endif]-->
 <head>
-
+<style>
+	/* Adjust the image size while maintaining aspect ratio */
+.profile-pic {
+  max-width: 100%; /* Adjust this to control the image width */
+  height: auto; /* This ensures the height adjusts to maintain aspect ratio */
+  border-radius: 50%; /* Optional: creates a circular image */
+  object-fit: cover; /* Ensures the image covers the area without being squashed. Adjust the container's size as needed */
+}
+</style>
    <!--- basic page needs
    ================================================== -->
    <meta charset="utf-8">
@@ -88,21 +96,23 @@
    ================================================== -->
    <section id="about">  
 
-   	<div class="row section-intro">
-   		<div class="col-twelve">
+<div class="row section-intro">
+   <div class="col-twelve">
 
-   			<h5>About</h5>
-   			<h1>Let me introduce myself.</h1>
+      <h5>About</h5>
+      <h1>Let me introduce myself.</h1>
 
-   			<div class="intro-info">
+      <div class="intro-info">
 
-   				<img src="images/profile-pic.jpg" alt="Profile Picture">
+         <!-- Ensure the class "profile-pic" is used for styling the image in CSS -->
+         <img src="images/profile-pic.jpg" alt="Profile Picture" class="profile-pic">
 
-   				<p class="lead">Hi my name is Izum Adnan! I'm a highly motivated and passionate undergraduate student with a keen interest in programming and experience in the production of high quality code and software. With valuable experience through coding projects and currently pursuing my 3rd year as an Honors Specialization in Computer Science at Western University. Confident and affable with the interpersonal skills to develop productive relationships with students and project managers to deliver projects and academic presentations to its greatest extent.</p>
-   			</div>   			
+         <p class="lead">Hi my name is Izum Adnan! I'm a highly motivated and passionate undergraduate student with a keen interest in programming and experience in the production of high quality code and software. With valuable experience through coding projects and currently pursuing my 3rd year as an Honors Specialization in Computer Science at Western University. Confident and affable with the interpersonal skills to develop productive relationships with students and project managers to deliver projects and academic presentations to its greatest extent.</p>
+      </div>            
 
-   		</div>   		
-   	</div> <!-- /section-intro -->
+   </div>       
+</div> <!-- /section-intro -->
+
 
    	<div class="row about-content">
 
