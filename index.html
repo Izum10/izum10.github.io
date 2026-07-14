@@ -11,6 +11,22 @@
   border-radius: 50%; /* Optional: creates a circular image */
   object-fit: cover; /* Ensures the image covers the area without being squashed. Adjust the container's size as needed */
 }
+
+/* Timeline fix: force each block to clear the previous one's floated header.
+   Without this, a title that wraps to 3+ lines leaves float space that the
+   next block's content flows up into, causing overlap. */
+.timeline-block {
+  clear: both;
+  overflow: hidden;
+}
+.timeline-block:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.timeline-content {
+  overflow: hidden; /* creates a block formatting context so text stops wrapping around the floated header */
+}
 </style>
    <!--- basic page needs
    ================================================== -->
@@ -200,7 +216,7 @@
 	   				</div>
 
 	   				<div class="timeline-header">
-	   					<h3>Robotic Process Automation Developer</h3>
+	   					<h3>RPA Developer</h3>
 	   					<p>May 2024 - August 2025</p>
 	   				</div>
 
@@ -308,7 +324,7 @@
    					</div>
 
    					<div class="timeline-header">
-   						<h3>Bachelor of Science, Honors Specialization in Computer Science</h3>
+   						<h3>Bachelor of Science, Computer Science</h3>
    						<p>September 2021 - April 2026</p>
    					</div>
 
@@ -362,7 +378,7 @@
 						</div>
 
 						<div class="timeline-header">
-							<h3>IBM Z XPLORE - Fundamentals, Concepts &amp; Advanced</h3>
+							<h3>IBM Z XPLORE Certification</h3>
 							<p>2025</p>
 						</div>
 
@@ -434,7 +450,7 @@
 						</div>
 
 						<div class="timeline-header">
-							<h3>Placed 2nd of 56 - "Project Valorant"</h3>
+							<h3>Placed 2nd - "Project Valorant"</h3>
 							<p>March 2023</p>
 						</div>
 
@@ -470,7 +486,7 @@
 						</div>
 
 						<div class="timeline-header">
-							<h3>Software Engineering,Back-End Development Specialization</h3>
+							<h3>Software Engineering Certificate</h3>
 							<p>May 2023</p>
 						</div>
 
@@ -488,8 +504,8 @@
 						</div>
 
 						<div class="timeline-header">
-							<h3>Java and Software Engineering</h3>
-							<p>June 2022 - Nov 2022</p>
+							<h3>Java Specialization</h3>
+							<p>June 2022 - November 2022</p>
 						</div>
 
 						<div class="timeline-content">
@@ -850,4 +866,3 @@
 </body>
 
 </html>
-
