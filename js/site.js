@@ -1,0 +1,268 @@
+/* Hero: a tiny screening pipeline. 1,247 points stream in, a gate keeps the
+   ones that fit, and those settle into the name. Pointer pushes them around. */
+(function () {
+  const canvas = document.getElementById("pipeline");
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const TOTAL = 1247;
+  const elIn = document.getElementById("r-in");
+  const elKept = document.getElementById("r-kept");
+  const elDrop = document.getElementById("r-drop");
+  const replay = document.getElementById("replay");
+
+  const css = getComputedStyle(document.documentElement);
+  const INK = css.getPropertyValue("--ink").trim() || "#0f1c3a";
+  const BLUE = css.getPropertyValue("--blue").trim() || "#2f6da8";
+  const SIGNAL = css.getPropertyValue("--signal").trim() || "#e39b2d";
+  const RULE = css.getPropertyValue("--rule").trim() || "#cbd4de";
+  const DISPLAY = css.getPropertyValue("--display").trim();
+
+  let W = 0, H = 0, dpr = 1, gateX = 0, size = 2;
+  let particles = [];
+  let targets = [];
+  let start = 0;
+  let pointer = { x: -9999, y: -9999, active: false };
+  let raf = 0;
+  let visible = true;
+
+  function sampleTargets() {
+    const off = document.createElement("canvas");
+    off.width = W; off.height = H;
+    const o = off.getContext("2d", { willReadFrequently: true });
+    const twoLines = W < 720;
+    const left = Math.max(W * 0.13, 48);
+    const avail = W - left - Math.max(W * 0.04, 20);
+    const lines = twoLines ? ["Izum", "Adnan"] : ["Izum Adnan"];
+    o.textBaseline = "alphabetic";
+    o.fillStyle = "#000";
+    // fit the widest line to the available width, then cap by height
+    let fs = 100;
+    o.font = `800 ${fs}px ${DISPLAY}`;
+    const widest = Math.max(...lines.map((t) => o.measureText(t).width));
+    fs = Math.min(fs * (avail / widest), (H * (twoLines ? 0.8 : 0.62)) / lines.length);
+    o.font = `800 ${fs}px ${DISPLAY}`;
+    const lh = fs * 0.95;
+    let y = (H - lh * lines.length) / 2 + fs * 0.78;
+    lines.forEach((t) => { o.fillText(t, left, y); y += lh; });
+    const data = o.getImageData(0, 0, W, H).data;
+
+    const sample = (gap) => {
+      const pts = [];
+      for (let yy = gap / 2; yy < H; yy += gap) {
+        for (let xx = left; xx < W; xx += gap) {
+          const i = ((yy | 0) * W + (xx | 0)) * 4 + 3;
+          if (data[i] > 140) pts.push({ x: xx, y: yy });
+        }
+      }
+      return pts;
+    };
+    // pick a grid spacing so the name uses close to (but under) the cap,
+    // leaving some of the 1,247 points to be screened out
+    const cap = Math.floor(TOTAL * 0.86);
+    let gap = Math.max(3, fs / 16), pts = sample(gap);
+    for (let k = 0; k < 4; k++) {
+      gap = Math.max(2.5, gap * Math.sqrt(pts.length / cap));
+      pts = sample(gap);
+    }
+    while (pts.length > cap) { gap *= 1.03; pts = sample(gap); }
+    size = Math.max(1.6, gap * 0.6);
+    gateX = left * 0.55;
+    return pts;
+  }
+
+  function build() {
+    const rect = canvas.getBoundingClientRect();
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = Math.max(1, Math.round(rect.width));
+    H = Math.max(1, Math.round(rect.height));
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    targets = sampleTargets();
+
+    // shuffle which index is kept vs rejected
+    const flags = new Array(TOTAL).fill(false);
+    for (let i = 0; i < targets.length; i++) flags[i] = true;
+    for (let i = flags.length - 1; i > 0; i--) {
+      const j = (Math.random() * (i + 1)) | 0;
+      [flags[i], flags[j]] = [flags[j], flags[i]];
+    }
+    // sort targets left to right so the name fills in reading order
+    targets.sort((a, b) => a.x - b.x + (Math.random() - 0.5) * 40);
+
+    let t = 0;
+    particles = flags.map((keep, i) => {
+      const lane = H * 0.5 + (Math.random() - 0.5) * H * 0.7;
+      const p = {
+        keep,
+        x: -20 - Math.random() * 60,
+        y: lane,
+        vx: 0, vy: 0,
+        delay: (i / TOTAL) * 2600 + Math.random() * 250,
+        state: "wait", // wait -> stream -> settle | drop
+        tx: 0, ty: 0,
+        a: 1,
+        speed: 3.2 + Math.random() * 2.4,
+      };
+      if (keep) { const tg = targets[t++]; p.tx = tg.x; p.ty = tg.y; }
+      return p;
+    });
+    start = performance.now();
+    if (reduce) finish();
+  }
+
+  function finish() {
+    particles.forEach((p) => {
+      if (p.keep) { p.x = p.tx; p.y = p.ty; p.state = "settle"; }
+      else { p.state = "gone"; }
+    });
+    updateReadout(true);
+    draw();
+  }
+
+  function updateReadout(final) {
+    let inn = 0, kept = 0, drop = 0;
+    for (const p of particles) {
+      if (p.state !== "wait" && p.state !== "stream") {
+        inn++;
+        if (p.keep) kept++; else drop++;
+      }
+    }
+    if (final) { inn = TOTAL; kept = targets.length; drop = TOTAL - targets.length; }
+    elIn.textContent = inn.toLocaleString();
+    elKept.textContent = kept.toLocaleString();
+    elDrop.textContent = drop.toLocaleString();
+  }
+
+  function step(now) {
+    const t = now - start;
+    for (const p of particles) {
+      if (p.state === "wait") {
+        if (t >= p.delay) p.state = "stream";
+        else continue;
+      }
+      if (p.state === "stream") {
+        p.x += p.speed * 2.2;
+        p.y += Math.sin((p.x + p.delay) * 0.02) * 0.6;
+        if (p.x >= gateX) {
+          if (p.keep) { p.state = "settle"; p.vx = p.speed * 2; }
+          else { p.state = "drop"; p.vx = p.speed * 0.8; p.vy = -1 - Math.random() * 1.5; }
+        }
+      } else if (p.state === "settle") {
+        const dx = p.tx - p.x, dy = p.ty - p.y;
+        p.vx += dx * 0.012; p.vy += dy * 0.012;
+        if (pointer.active) {
+          const px = p.x - pointer.x, py = p.y - pointer.y;
+          const d2 = px * px + py * py, R = 90;
+          if (d2 < R * R && d2 > 0.01) {
+            const d = Math.sqrt(d2), f = (1 - d / R) * 5;
+            p.vx += (px / d) * f; p.vy += (py / d) * f;
+          }
+        }
+        p.vx *= 0.82; p.vy *= 0.82;
+        p.x += p.vx; p.y += p.vy;
+      } else if (p.state === "drop") {
+        p.vy += 0.18; p.x += p.vx; p.y += p.vy; p.a -= 0.012;
+        if (p.a <= 0 || p.y > H + 20) p.state = "gone";
+      }
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    // the gate
+    ctx.strokeStyle = RULE; ctx.lineWidth = 1;
+    ctx.setLineDash([4, 6]);
+    ctx.beginPath(); ctx.moveTo(gateX, H * 0.1); ctx.lineTo(gateX, H * 0.9); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = INK;
+    ctx.font = `500 12px ${DISPLAY}`;
+    ctx.save(); ctx.translate(gateX - 8, H * 0.1); ctx.rotate(-Math.PI / 2);
+    ctx.textAlign = "right"; ctx.globalAlpha = 0.55; ctx.fillText("screening gate", 0, 0); ctx.restore();
+    ctx.globalAlpha = 1;
+
+    for (const p of particles) {
+      if (p.state === "wait" || p.state === "gone") continue;
+      if (p.state === "stream") { ctx.fillStyle = INK; ctx.globalAlpha = 0.35; }
+      else if (p.state === "drop") { ctx.fillStyle = SIGNAL; ctx.globalAlpha = Math.max(0, p.a); }
+      else {
+        const moving = Math.abs(p.vx) + Math.abs(p.vy) > 0.6;
+        ctx.fillStyle = moving ? BLUE : INK; ctx.globalAlpha = 1;
+      }
+      ctx.fillRect(p.x - size / 2, p.y - size / 2, size, size);
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  let frame = 0;
+  function loop(now) {
+    if (visible) {
+      step(now); draw();
+      if ((frame++ & 7) === 0) updateReadout(false);
+    }
+    raf = requestAnimationFrame(loop);
+  }
+
+  function setPointer(e) {
+    const r = canvas.getBoundingClientRect();
+    pointer.x = e.clientX - r.left; pointer.y = e.clientY - r.top; pointer.active = true;
+  }
+  canvas.addEventListener("pointermove", setPointer);
+  canvas.addEventListener("pointerdown", setPointer);
+  canvas.addEventListener("pointerleave", () => { pointer.active = false; });
+
+  replay.addEventListener("click", () => { build(); });
+
+  let rt;
+  window.addEventListener("resize", () => {
+    clearTimeout(rt);
+    rt = setTimeout(() => { build(); if (reduce) finish(); }, 180);
+  });
+
+  new IntersectionObserver((entries) => { visible = entries[0].isIntersecting; }).observe(canvas);
+
+  const go = () => { build(); if (!reduce) raf = requestAnimationFrame(loop); };
+  if (document.fonts && document.fonts.load) {
+    Promise.race([
+      document.fonts.load(`800 100px ${DISPLAY}`),
+      new Promise((r) => setTimeout(r, 1500)),
+    ]).then(go, go);
+  } else go();
+})();
+
+/* Top bar border and current-section link */
+(function () {
+  const bar = document.querySelector(".bar");
+  const onScroll = () => bar.classList.toggle("is-scrolled", window.scrollY > 8);
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+
+  const links = [...document.querySelectorAll(".bar nav a")];
+  const map = new Map(links.map((a) => [a.getAttribute("href").slice(1), a]));
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) {
+        links.forEach((a) => a.removeAttribute("aria-current"));
+        const a = map.get(e.target.id);
+        if (a) a.setAttribute("aria-current", "true");
+      }
+    });
+  }, { rootMargin: "-45% 0px -50% 0px" });
+  map.forEach((_, id) => { const s = document.getElementById(id); if (s) io.observe(s); });
+})();
+
+/* Copy email */
+(function () {
+  const btn = document.getElementById("copy-email");
+  if (!btn) return;
+  btn.addEventListener("click", async () => {
+    const email = btn.dataset.email;
+    try { await navigator.clipboard.writeText(email); }
+    catch (e) {
+      const t = document.createElement("textarea"); t.value = email; document.body.appendChild(t);
+      t.select(); document.execCommand("copy"); t.remove();
+    }
+    btn.textContent = "Copied"; btn.dataset.done = "true";
+    setTimeout(() => { btn.textContent = "Copy email"; btn.dataset.done = "false"; }, 2000);
+  });
+})();

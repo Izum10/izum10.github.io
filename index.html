@@ -1,929 +1,399 @@
 <!DOCTYPE html>
-<!--[if IE 8 ]><html class="no-js oldie ie8" lang="en"> <![endif]-->
-<!--[if IE 9 ]><html class="no-js oldie ie9" lang="en"> <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!--><html class="no-js" lang="en"> <!--<![endif]-->
+<html lang="en">
 <head>
-<style>
-	/* Adjust the image size while maintaining aspect ratio */
-.profile-pic {
-  max-width: 100%; /* Adjust this to control the image width */
-  height: auto; /* This ensures the height adjusts to maintain aspect ratio */
-  border-radius: 50%; /* Optional: creates a circular image */
-  object-fit: cover; /* Ensures the image covers the area without being squashed. Adjust the container's size as needed */
-}
-
-/* Timeline fix: force each block to clear the previous one's floated header.
-   Without this, a title that wraps to 3+ lines leaves float space that the
-   next block's content flows up into, causing overlap. */
-.timeline-block {
-  clear: both;
-  overflow: hidden;
-}
-.timeline-block:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-.timeline-content {
-  overflow: hidden; /* creates a block formatting context so text stops wrapping around the floated header */
-}
-</style>
-   <!--- basic page needs
-   ================================================== -->
-   <meta charset="utf-8">
-	<title>Izum Adnan Web Portfolio</title>
-	<meta name="description" content="Izum Adnan - Computer Science graduate, Western University. MSCS Candidate in Computer Science with a Machine Learning Specialization, Columbia University.">
-	<meta name="author" content="Izum Adnan">
-
-   <!-- mobile specific metas
-   ================================================== -->
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
- 	<!-- CSS
-   ================================================== -->
-   <link rel="stylesheet" href="css/base.css">  
-   <link rel="stylesheet" href="css/main.css">
-   <link rel="stylesheet" href="css/vendor.css">     
-
-   <!-- script
-   ================================================== -->   
-	<script src="js/modernizr.js"></script>
-	<script src="js/pace.min.js"></script>
-
-   <!-- favicons
-	================================================== -->
-	<link rel="icon" type="image/png" href="favicon.png">
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Izum Adnan</title>
+  <meta name="description" content="Izum Adnan. MSCS student in Machine Learning at Columbia University, co-founder of SettleWise, and computer science graduate of Western University. Building AI and automation that takes manual work off people's plates.">
+  <meta name="author" content="Izum Adnan">
+  <meta property="og:title" content="Izum Adnan">
+  <meta property="og:description" content="MSCS in Machine Learning at Columbia. Co-founder of SettleWise. AI, automation and research.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://izum10.github.io/">
+  <meta property="og:image" content="https://izum10.github.io/images/portfolio/profile-pic.jpg">
+  <meta name="theme-color" content="#edf0f3">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/site.css">
 </head>
-
-<body id="top">
-
-	<!-- header 
-   ================================================== -->
-   <header>   	
-   	<div class="row">
-
-   		<div class="top-bar">
-   			<a class="menu-toggle" href="#"><span>Menu</span></a>
-
-	   		<div class="logo">
-		         <a href="index.html">IZUM</a>
-		      </div>		      
-
-		   	<nav id="main-nav-wrap">
-					<ul class="main-navigation">
-						<li class="current"><a class="smoothscroll"  href="#intro" title="">Home</a></li>
-						<li><a class="smoothscroll"  href="#about" title="">About</a></li>
-						<li><a class="smoothscroll"  href="#resume" title="">Resume</a></li>
-						<li><a class="smoothscroll"  href="#portfolio" title="">Portfolio</a></li>
-						<li><a class="smoothscroll"  href="#contact" title="">Contact</a></li>	
-					</ul>
-				</nav>    		
-   		</div> <!-- /top-bar --> 
-   		
-   	</div> <!-- /row --> 		
-   </header> <!-- /header -->
-
-	<!-- intro section
-   ================================================== -->
-   <section id="intro">   
-
-   	<div class="intro-overlay"></div>	
-
-   	<div class="intro-content">
-   		<div class="row">
-
-   			<div class="col-twelve">
-
-	   			<h5>Hello, World.</h5>
-	   			<h1>I'm Izum Adnan.</h1>
-
-	   			<a class="button stroke smoothscroll" href="#about" title="">More About Me</a>
-
-	   		</div>  
-   			
-   		</div>   		 		
-   	</div> <!-- /intro-content -->     	
-
-   </section> <!-- /intro -->
-
-
-   <!-- about section
-   ================================================== -->
-   <section id="about">  
-
-		<div class="row section-intro">
-   		<div class="col-twelve">
-
-   			<h5>About</h5>
-   			<h1>Let me introduce myself.</h1>
-
-   			<div class="intro-info">
-
-   				<img src="images/portfolio/profile-pic.jpg" alt="Profile Picture" class="profile-pic">
-
-   				<p class="lead">A highly motivated and passionate computer scientist with a strong interest in software development and the production of high-quality code. Graduated from Western University with a Bachelor of Science in Computer Science and currently pursing a Master of Science in Computer Science at Columbia University. Experienced in developing software through academic and personal projects, with a strong foundation in programming, problem-solving, and collaborative development. Confident and personable, with excellent communication and interpersonal skills that enable effective collaboration with peers, researchers, and project stakeholders to deliver impactful technical solutions and presentations.</p>
-   			</div>            
-
-   		</div>       
-   	</div> <!-- /section-intro -->
-
-
-   	<div class="row about-content">
-
-   		<div class="col-six tab-full">
-
-   			<ul class="info-list">
-   				<li>
-   					<strong>Fullname:</strong>
-   					<span>Izum Adnan</span>
-   				</li>
-   				<li>
-   					<strong>Birth Date:</strong>
-   					<span>October 21st, 2003</span>
-   				</li>
-   				<li>
-   					<strong>Undergraduate Degree:</strong>
-   					<span>Bachelor of Science, Honors Specialization in Computer Science @ Western University</span>
-   				</li>
-   				<li>
-   					<strong>Masters Degree:</strong>
-   					<span>MSCS Computer Science (Machine Learning) @ Columbia University ~ Expected Dec 2027</span>
-   				</li>
-   				<li>
-   					<strong>LinkedIn:</strong>
-   					<span>linkedin.com/in/izum-adnan</span>
-   				</li>
-   				<li>
-   					<strong>Email:</strong>
-   					<span>ia2637@ccolumbia.edu</span>
-   				</li>
-
-   			</ul> <!-- /info-list -->
-
-   		</div>
-
-   		<div class="col-six tab-full">
-
-   			<h3>Skills</h3>
-   			<p>I write most of my code in Python, Java, JavaScript, C/C++, PHP, and SQL. I've built full-stack applications with React and Node.js and shipped enterprise automation on Blue Prism, SAP, and Azure. My research has applied NLP to real evidence-synthesis problems. I led an eight-person AI team at Western AI to a 2nd-place finish out of 56 at a Canadian undergraduate conference, and through two startup labs I've taken ideas from problem discovery to pitch. I'm also designing a number-sense game for special-needs students with Wellbotics and Teachers College.</p>
-
-   		</div>
-
-   	</div>
-
-   	<div class="row button-section">
-   		<div class="col-twelve">
-   			<a href="#contact" title="Hire Me" class="button stroke smoothscroll">Hire Me</a>
-			<a href="https://github.com/Izum10/izum10.github.io/blob/main/Izum%20Adnan%20-%20Resume.pdf" download="Izum Adnan - CV/Resume.pdf" title="Download CV" class="button button-primary">Download CV</a>
-			</div>   		
-   	</div>
-
-   </section> <!-- /about-->    
-
-
-      <!-- resume Section
-   ================================================== -->
-	<section id="resume" class="grey-section">
-
-		<div class="row section-intro">
-			<div class="col-twelve">
-
-				<h5>Resume</h5>
-				<h1>More of my credentials.</h1>
-
-				<p class="lead">I've been fortunate to gain practical experience that complements my coding skills, allowing me to apply my expertise to real-world problems in industry and research.</p>
-
-			</div>
-		</div> <!-- /section-intro-->
-
-		<!-- Education
-		================================================== -->
-		<div class="row resume-timeline">
-
-			<div class="col-twelve resume-header">
-
-				<h2>Education</h2>
-
-			</div> <!-- /resume-header -->
-
-			<div class="col-twelve">
-
-				<div class="timeline-wrap">
-
-					<div class="timeline-block">
-
-						<div class="timeline-ico">
-							<i class="fa fa-graduation-cap"></i>
-						</div>
-
-						<div class="timeline-header">
-							<h3>Master of Science, Computer Science. Specialization in Machine Learning</h3>
-							<p>September 2026 (Expected Completion Dec 2027)</p>
-						</div>
-
-						<div class="timeline-content">
-							<h4>Columbia University (SEAS)</h4>
-							<p>MSCS student at Columbia's School of Engineering and Applied Science, specializing in Machine Learning and building applied AI that automates real workflows. Currently a part of 2 startup labs, developing cardinality games for Special Needs Learners and doing research within the AI and Cancer space.</p>
-						</div>
-
-					</div> <!-- /timeline-block -->
-
-					<div class="timeline-block">
-
-						<div class="timeline-ico">
-							<i class="fa fa-graduation-cap"></i>
-						</div>
-
-						<div class="timeline-header">
-							<h3>Bachelor of Science, Computer Science</h3>
-							<p>September 2021 - April 2026</p>
-						</div>
-
-						<div class="timeline-content">
-							<h4>Western University</h4>
-							<p>Completed an undergraduate thesis on automated scoping review pipelines under the supervision of Dr. Pavlos Bobos. Coursework spanned operating systems, analysis of algorithms, theory of computing, artificial intelligence, software engineering, databases and computer architecture. Dean's Honor List, 2023-2024 and 2025-2026.</p>
-						</div>
-
-					</div> <!-- /timeline-block -->
-
-				</div> <!-- /timeline-wrap -->
-
-			</div> <!-- /col-twelve -->
-
-		</div> <!-- /resume-timeline -->
-
-		<!-- Work Experience
-		================================================== -->
-		<div class="row resume-timeline">
-
-			<div class="col-twelve resume-header">
-
-				<h2>Work Experience</h2>
-
-			</div> <!-- /resume-header -->
-
-			<div class="col-twelve">
-
-				<div class="timeline-wrap">
-
-					<div class="timeline-block">
-
-						<div class="timeline-ico">
-							<i class="fa fa-briefcase"></i>
-						</div>
-
-						<div class="timeline-header">
-							<h3>RPA Developer</h3>
-							<p>May 2024 - August 2025</p>
-						</div>
-
-						<div class="timeline-content">
-							<h4>Celestica</h4>
-							<p>Led two enterprise-grade automation deployments integrating Blue Prism, SAP, and Azure Bots across global manufacturing operations. Built a business-analytics automation that processes high-volume SAP inputs, validates data integrity, and triggers conditional workflows across departments, raising projected annual savings from roughly $80,000 to $95,000. Developed an endpoint-validation automation that continuously tests live production endpoints, reducing downtime incidents across RPA processes by 70%. Worked with cross-functional teams across North America, Europe, and Asia to map workflows and convert inefficiencies into scalable automation.</p>
-						</div>
-
-					</div> <!-- /timeline-block -->
-
-					<div class="timeline-block">
-
-						<div class="timeline-ico">
-							<i class="fa fa-briefcase"></i>
-						</div>
-
-						<div class="timeline-header">
-							<h3>AI Developer</h3>
-							<p>September 2022 - March 2023</p>
-						</div>
-
-						<div class="timeline-content">
-							<h4>Western AI</h4>
-							<p>Project lead for a team of eight building a competitive AI agent, driving architecture, testing, and execution end to end. Worked within a multidisciplinary group focused on applied machine learning, agent behavior, and game intelligence research. Presented the team's findings at a three-day multi-university conference and placed 2nd. The project's architecture was later referenced internally as a template for future agent-based research.</p>
-						</div>
-
-					</div> <!-- /timeline-block -->
-
-					<div class="timeline-block">
-
-						<div class="timeline-ico">
-							<i class="fa fa-briefcase"></i>
-						</div>
-
-						<div class="timeline-header">
-							<h3>Program Development Intern</h3>
-							<p>June 2020 - March 2021</p>
-						</div>
-
-						<div class="timeline-content">
-							<h4>Deloitte (Oman Branch)</h4>
-							<p>Designed and built an internal time-tracking automation tool using PHP, SQL, HTML, and CSS, replacing a fully manual process for chargeable-hour computation. Implemented server-side logic to calculate costs, validate entries, and generate reporting tables for management, improving operational transparency and enabling faster, more accurate reporting cycles.</p>
-						</div>
-
-					</div> <!-- /timeline-block -->
-
-					<div class="timeline-block">
-
-						<div class="timeline-ico">
-							<i class="fa fa-briefcase"></i>
-						</div>
-
-						<div class="timeline-header">
-							<h3>Database Management Intern</h3>
-							<p>March 2019 - April 2019</p>
-						</div>
-
-						<div class="timeline-content">
-							<h4>King's College Hospital (Dubai)</h4>
-							<p>Shadowed senior technical staff to learn how data systems integrate with administrative, marketing, and clinical operations. Used MS Access across a range of database operations, identified redundancies in data flow, and offered restructuring suggestions that improved efficiency.</p>
-						</div>
-
-					</div> <!-- /timeline-block -->
-
-				</div> <!-- /timeline-wrap -->
-
-			</div> <!-- /col-twelve -->
-
-		</div> <!-- /resume-timeline -->
-
-		<!-- Projects
-		================================================== -->
-		<div class="row resume-timeline">
-
-			<div class="col-twelve resume-header">
-
-				<h2>Projects</h2>
-
-			</div> <!-- /resume-header -->
-
-			<div class="col-twelve">
-
-				<div class="timeline-wrap">
-
-					<div class="timeline-block">
-
-						<div class="timeline-ico">
-							<i class="fa fa-code"></i>
-						</div>
-
-						<div class="timeline-header">
-							<h3>Adaptive Educational Game for Learners with Special Needs</h3>
-							<p>September 2026 - Present</p>
-						</div>
-
-						<div class="timeline-content">
-							<h4>Wellbotics x Teachers College, Columbia</h4>
-							<p>Building an interactive cardinality game for middle school students with special needs, as part of a game design cohort in partnership with Teachers College, Columbia. Testing tangible gameplay with students and educators to evaluate usability and accessibility, and adjusting the design based on their interactions and feedback.</p>
-						</div>
-
-					</div> <!-- /timeline-block -->
-
-					<div class="timeline-block">
-
-						<div class="timeline-ico">
-							<i class="fa fa-code"></i>
-						</div>
-
-						<div class="timeline-header">
-							<h3>AI-Driven Scoping Review Pipeline for Physiotherapy Research</h3>
-							<p>September 2025 - May 2026</p>
-						</div>
-
-						<div class="timeline-content">
-							<h4>Undergraduate Thesis, Western University</h4>
-							<p>Designed and integrated an end-to-end scoping review automation pipeline in Python (PubMed API, Pandas, scikit-learn, spaCy), replacing a manual multi-stage workflow. Trained an SVM and TF-IDF classifier for title-and-abstract screening, reaching 0.91 recall and 0.82 F1 across 1,247 records. Automated structured data extraction with rule-based NER, populating key fields for 78% of included articles without manual input. Cut total reviewer time by 64% (38 to 13.5 hours) against a two-reviewer baseline while producing reproducible outputs.</p>
-						</div>
-
-					</div> <!-- /timeline-block -->
-
-					<div class="timeline-block">
-
-						<div class="timeline-ico">
-							<i class="fa fa-code"></i>
-						</div>
-
-						<div class="timeline-header">
-							<h3>Whac-A-Mole Game</h3>
-							<p>September 2023 - November 2023</p>
-						</div>
-
-						<div class="timeline-content">
-							<h4>Hardware Project (Raspberry Pi)</h4>
-							<p>Built an embedded interactive Whac-A-Mole game combining LED matrices, GPIO input, and real-time timing logic, using state machines for system flow and scoring algorithms with variable difficulty scaling. Ran performance testing to optimize response windows and measure average user interaction speed.</p>
-						</div>
-
-					</div> <!-- /timeline-block -->
-
-					<div class="timeline-block">
-
-						<div class="timeline-ico">
-							<i class="fa fa-code"></i>
-						</div>
-
-						<div class="timeline-header">
-							<h3>IveyHacks X Cyder Hackathon</h3>
-							<p>March 2023</p>
-						</div>
-
-						<div class="timeline-content">
-							<h4>Ivey Business School, Western University</h4>
-							<p>A hybrid business-analytics and hackathon competition hosted by Ivey Business School. Analyzed Cyder's platform for usability issues and onboarding friction, then built a demo user-adoption and training strategy with micro-learning modules and adoption checkpoints. Well received by judges for its potential integration into Cyder's UX roadmap.</p>
-						</div>
-
-					</div> <!-- /timeline-block -->
-
-					<div class="timeline-block">
-
-						<div class="timeline-ico">
-							<i class="fa fa-code"></i>
-						</div>
-
-						<div class="timeline-header">
-							<h3>Western Geographic Information System</h3>
-							<p>September 2022 - December 2022</p>
-						</div>
-
-						<div class="timeline-content">
-							<h4>Desktop Application (Java/JavaFX)</h4>
-							<p>Programmed an indoor building navigation app using Western's GIS datasets, pulling real-time OpenWeather API data for environmental context and implementing layered spatial data structures for pathfinding across buildings and indoor areas.</p>
-						</div>
-
-					</div> <!-- /timeline-block -->
-
-				</div> <!-- /timeline-wrap -->
-
-			</div> <!-- /col-twelve -->
-
-		</div> <!-- /resume-timeline -->
-
-		<!-- Certificates & Accomplishments
-		================================================== -->
-		<div class="row resume-timeline">
-
-			<div class="col-twelve resume-header">
-
-				<h2>Certificates &amp; Accomplishments</h2>
-
-			</div> <!-- /resume-header -->
-
-			<div class="col-twelve">
-
-				<div class="timeline-wrap">
-
-					<div class="timeline-block">
-
-						<div class="timeline-ico">
-							<i class="fa fa-graduation-cap"></i>
-						</div>
-
-						<div class="timeline-header">
-							<h3>Dean's Honor List</h3>
-							<p>2025 - 2026</p>
-						</div>
-
-						<div class="timeline-content">
-							<h4>Western University</h4>
-							<p>Awarded for maintaining an A average across the 2025-2026 academic year, my second time on the list.</p>
-						</div>
-
-					</div> <!-- /timeline-block -->
-
-					<div class="timeline-block">
-
-						<div class="timeline-ico">
-							<i class="fa fa-graduation-cap"></i>
-						</div>
-
-						<div class="timeline-header">
-							<h3>IBM Z XPLORE Certification</h3>
-							<p>2025</p>
-						</div>
-
-						<div class="timeline-content">
-							<h4>IBM</h4>
-							<p>Completed all three tiers of IBM's Z XPLORE program, covering enterprise mainframe systems, z/OS fundamentals, and advanced platform concepts.</p>
-						</div>
-
-					</div> <!-- /timeline-block -->
-
-					<div class="timeline-block">
-
-						<div class="timeline-ico">
-							<i class="fa fa-graduation-cap"></i>
-						</div>
-
-						<div class="timeline-header">
-							<h3>AWS Certified Cloud Practitioner</h3>
-							<p>July 2025</p>
-						</div>
-
-						<div class="timeline-content">
-							<h4>Amazon Web Services</h4>
-							<p>Certified in AWS cloud fundamentals, covering core services, architecture, security, and pricing models.</p>
-						</div>
-
-					</div> <!-- /timeline-block -->
-
-					<div class="timeline-block">
-
-						<div class="timeline-ico">
-							<i class="fa fa-graduation-cap"></i>
-						</div>
-
-						<div class="timeline-header">
-							<h3>Blue Prism Foundations</h3>
-							<p>May 2024</p>
-						</div>
-
-						<div class="timeline-content">
-							<h4>BP3 Global, Training Team</h4>
-							<p>Certification in Blue Prism, the RPA platform I went on to build production automations with at Celestica.</p>
-						</div>
-
-					</div> <!-- /timeline-block -->
-
-					<div class="timeline-block">
-
-						<div class="timeline-ico">
-							<i class="fa fa-graduation-cap"></i>
-						</div>
-
-						<div class="timeline-header">
-							<h3>Dean's Honor List</h3>
-							<p>2023 - 2024</p>
-						</div>
-
-						<div class="timeline-content">
-							<h4>Western University</h4>
-							<p>Awarded for maintaining an A average across the 2023-2024 academic year.</p>
-						</div>
-
-					</div> <!-- /timeline-block -->
-
-					<div class="timeline-block">
-
-						<div class="timeline-ico">
-							<i class="fa fa-graduation-cap"></i>
-						</div>
-
-						<div class="timeline-header">
-							<h3>Placed 2nd - "Project Valorant"</h3>
-							<p>March 2023</p>
-						</div>
-
-						<div class="timeline-content">
-							<h4>CUCAI (Canadian Undergraduate Conference on AI)</h4>
-							<p>Second place out of 56 groups for the AI agent developed as project lead within Western AI.</p>
-						</div>
-
-					</div> <!-- /timeline-block -->
-
-					<div class="timeline-block">
-
-						<div class="timeline-ico">
-							<i class="fa fa-graduation-cap"></i>
-						</div>
-
-						<div class="timeline-header">
-							<h3>Software Engineering Certificate</h3>
-							<p>May 2023</p>
-						</div>
-
-						<div class="timeline-content">
-							<h4>IBM</h4>
-							<p>A certificate covering software engineering practice across both back-end and front-end development.</p>
-						</div>
-
-					</div> <!-- /timeline-block -->
-
-					<div class="timeline-block">
-
-						<div class="timeline-ico">
-							<i class="fa fa-graduation-cap"></i>
-						</div>
-
-						<div class="timeline-header">
-							<h3>Java Specialization</h3>
-							<p>June 2022 - November 2022</p>
-						</div>
-
-						<div class="timeline-content">
-							<h4>Duke University</h4>
-							<p>Completed with Honors with Distinction. A specialization in Java programming aimed at building foundational skills for real-world problems.</p>
-						</div>
-
-					</div> <!-- /timeline-block -->
-
-					<div class="timeline-block">
-
-						<div class="timeline-ico">
-							<i class="fa fa-graduation-cap"></i>
-						</div>
-
-						<div class="timeline-header">
-							<h3>CS50 - Game Development</h3>
-							<p>January 2021 - July 2021</p>
-						</div>
-
-						<div class="timeline-content">
-							<h4>Harvard University</h4>
-							<p>Harvard's game development course, covering 2D and 3D game programming. Built 11 games over the course.</p>
-						</div>
-
-					</div> <!-- /timeline-block -->
-
-				</div> <!-- /timeline-wrap -->
-
-			</div> <!-- /col-twelve -->
-
-		</div> <!-- /resume-timeline -->
-
-	</section> <!-- /resume -->
-
-
-	<!-- Portfolio Section
-   ================================================== -->
-	<section id="portfolio">
-
-		<div class="row section-intro">
-   		<div class="col-twelve">
-
-   			<h5>Portfolio</h5>
-<h1>Check Out Some of My Projects/Code. (Can find more on my <a href="https://github.com/Izum10" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Github</a>)</h1>
-   		</div>   		
-   	</div> <!-- /section-intro--> 
-
-   	<div class="row portfolio-content">
-
-   		<div class="col-twelve">
-
-   			<!-- portfolio-wrapper -->
-	         <div id="folio-wrapper" class="block-1-2 block-mob-full stack">
-
-	         	<div class="bgrid folio-item">
-	               <div class="item-wrap">
-	               	<img src="images/portfolio/liberty.jpg" alt="Liberty">
-	                  <a href="#modal-01" class="overlay">	                  	           
-	                     <div class="folio-item-table">
-	                     	<div class="folio-item-cell">
-		     					       <h3 class="folio-title">Western AI CSGO Project</h3>	     					    
-		     					    	 <span class="folio-types">
-		     					       	  AI Project
-		     					       </span>
-		     					   </div>	                      	
-	                     </div>                    
-	                  </a>
-	               </div>	               
-	        		</div> <!-- /folio-item -->
-
-	        		<div class="bgrid folio-item">
-	               <div class="item-wrap">
-	               	<img src="images/portfolio/shutterbug.jpg" alt="Shutterbug">
-	               	<a href="#modal-02" class="overlay">              		                  
-	                     <div class="folio-item-table">
-	                     	<div class="folio-item-cell">
-	                     		<h3 class="folio-title">Harvard CS50</h3>	     					    
-		     					    	<span class="folio-types">
-										Harvard University's Game Development Course
-		     					      </span>		     		
-		     					   </div> 	                      	
-	                     </div>                    
-	                  </a>
-	               </div>
-	        		</div> <!-- /folio-item -->
-
-	            <div class="bgrid folio-item">
-	               <div class="item-wrap">
-	               	<img src="images/portfolio/Clouds.jpg" alt="Clouds">
-	                  <a href="#modal-03" class="overlay">             		                  
-	                     <div class="folio-item-table">
-	                     	<div class="folio-item-cell">
-	                     		<h3 class="folio-title">Time Sheet Distributor/Calculator</h3>	     					    
-		     					    	<span class="folio-types">
-		     					       	  Program Development for Deloitte Regional Manager
-		     					      </span>		     		
-		     					   </div> 	                      	
-	                     </div>                    
-	                  </a>
-	               </div>
-	        		</div> <!-- /folio-item -->  
-
-	        		<div class="bgrid folio-item">
-	               <div class="item-wrap">
-	               	<img src="images/portfolio/mapgallery.jpeg" alt="Map Gallery">
-	                  <a href="#modal-07" class="overlay">             		                  
-	                     <div class="folio-item-table">
-	                     	<div class="folio-item-cell">
-	                     		<h3 class="folio-title">Western Geographic Information System</h3>	     					    
-		     					    	<span class="folio-types">
-		     					       	  Web Application
-		     					      </span>		     		
-		     					   </div> 	                      	
-	                     </div>                    
-	                  </a>
-	               </div>
-	        		</div> <!-- /folio-item -->
-
-	        		<div class="bgrid folio-item">
-	               <div class="item-wrap">
-	               	<img src="images/portfolio/maxresdefault.jpeg" alt="Whac-A-Mole">
-	                  <a href="#modal-05" class="overlay">             		                  
-	                     <div class="folio-item-table">
-	                     	<div class="folio-item-cell">
-	                     		<h3 class="folio-title">Whac-A-Mole Game</h3>	     					    
-		     					    	<span class="folio-types">
-		     					       	  Hardware Project
-		     					      </span>		     		
-		     					   </div> 	                      	
-	                     </div>                    
-	                  </a>
-	               </div>
-	        		</div> <!-- /folio-item -->
-
-
-	            <!-- modal popups - begin
-	            ============================================================= -->
-
-	            <div id="modal-01" class="popup-modal slider mfp-hide">	
-
-				     	<div class="media">
-				     		<img src="images/portfolio/modals/m-liberty.jpg" alt="" />
-				     	</div>      	
-
-					   <div class="description-box">
-					      <h4>Western AI CSGO Project</h4>		      
-					      <p>As project lead for a team of eight, I designed a competitive AI agent for Counter-Strike built around graph-based navigation, heuristic pathfinding, and dynamic decision trees. I analyzed real gameplay patterns to tune the agent's response time, error margins, and unpredictability for more human-like behavior. Presented at a three-day multi-university conference, where it placed 2nd out of 56 groups. The architecture was later referenced internally as a template for future agent-based research.</p>
-
-					      <div class="categories">AI Development</div>			               
-					   </div>
-
-			         <div class="link-box">
-			            <a href="https://github.com/Izum10/Western-AI-CSGO-Project">Details</a>
-					      <a href="#" class="popup-modal-dismiss">Close</a>
-			         </div>		      
-
-				   </div> <!-- /modal-01 -->
-
-				   <div id="modal-02" class="popup-modal slider mfp-hide">	
-
-				     	<div class="media">
-				     		<img src="images/portfolio/modals/m-shutterbug.jpg" alt="" />
-				     	</div>      	
-
-					   <div class="description-box">
-					      <h4>Harvard CS50</h4>		      
-					      <p>Harvard University's game development course, covering the programming techniques behind both 2D and 3D games. Built 11 games over the course of the program.</p>
-
-					      <div class="categories">Game Development</div>			               
-					   </div>
-
-			         <div class="link-box">
-			            <a href="https://github.com/Izum10/Harvard-CS50">Details</a>
-					      <a href="#" class="popup-modal-dismiss">Close</a>
-			         </div>		      
-
-				   </div> <!-- /modal-02 -->
-
-				   <div id="modal-03" class="popup-modal slider mfp-hide">	
-
-				     	<div class="media">
-				     		<img src="images/portfolio/modals/m-Clouds.jpg" alt="" />
-				     	</div>      	
-
-					   <div class="description-box">
-					      <h4>Time Sheet Distributor/Calculator</h4>		      
-					      <p>An internal time-tracking tool built for Deloitte's Oman branch using HTML, PHP, SQL, and CSS. It automates the calculation and distribution of chargeable hours across employees, with server-side logic for cost calculation, entry validation, and management reporting tables. It replaced a fully manual process and shipped to production.</p>
-
-					      <div class="categories">Web Development</div>			               
-					   </div>
-
-			         <div class="link-box">
-			            <a href="https://github.com/Izum10/IB-Computer-Science-IA">Details</a>
-					      <a href="#" class="popup-modal-dismiss">Close</a>
-			         </div>		      
-
-				   </div> <!-- /modal-03 -->
-
-				   <div id="modal-05" class="popup-modal slider mfp-hide">	
-
-				     	<div class="media">
-				     		<img src="images/portfolio/modals/m-maxresdefault.jpeg" alt="" />
-				     	</div>      	
-
-					   <div class="description-box">
-					      <h4>Whac-A-Mole Game</h4>		      
-					      <p>An embedded interactive Whac-A-Mole built on Raspberry Pi, integrating LED matrices, GPIO input, and real-time timing logic. I modeled the system flow using state machines and implemented scoring algorithms with variable difficulty scaling, then ran performance testing to optimize response windows and measure average user interaction speed.</p>
-
-					      <div class="categories">Hardware Project</div>			               
-					   </div>
-
-			         <div class="link-box">
-			            <a href="https://github.com/Izum10/Whac-A-Mole_LEDGame">Details</a>
-					      <a href="#" class="popup-modal-dismiss">Close</a>
-			         </div>		      
-
-				   </div> <!-- /modal-05 -->
-
-				   <div id="modal-07" class="popup-modal slider mfp-hide">	
-
-				     	<div class="media">
-				     		<img src="images/portfolio/modals/m-mapgallery.jpeg" alt="" />
-				     	</div>      	
-
-					   <div class="description-box">
-					      <h4>Western Geographic Information System</h4>		      
-					      <p>A Java/JavaFX application built with Maven, NetBeans, and JSON that integrates Western's GIS datasets for indoor building navigation. It implements layered spatial data structures for pathfinding between buildings and interior areas, and appends real-time environmental context to location queries through the OpenWeather API.</p>
-
-					      <div class="categories">Web Application</div>			               
-					   </div>
-
-			         <div class="link-box">
-			            <a href="https://github.com/Izum10/Western_Navigation_System">Details</a>
-					      <a href="#" class="popup-modal-dismiss">Close</a>
-			         </div>		      
-
-				   </div> <!-- /modal-07 -->
-
-				   <!-- modal popups - end
-	            ============================================================= -->
-
-	         </div> <!-- /portfolio-wrapper --> 
-
-   		</div>  <!-- /twelve -->   
-
-   	</div> <!-- /portfolio-content --> 
-		
-	</section> <!-- /portfolio --> 
-
-	
-   <!-- contact
-   ================================================== -->
-	<section id="contact">
-
-		<div class="row section-intro">
-   		<div class="col-twelve">
-
-   			<h5>Contact</h5>
-   			<h1>I'd Love To Hear From You.</h1>
-
-   		</div> 
-   	
-   	</div> <!-- /section-intro -->
-
-   	<div class="row contact-info">
-
-   		<div class="col-four tab-full">
-
-   			<div class="icon">
-   				<i class="icon-pin"></i>
-   			</div>
-
-   			<h5>Where to find me</h5>
-
-   			<p>
-   				New York City, NY
-   			</p>
-
-   		</div>
-
-   		<div class="col-four tab-full collapse">
-
-   			<div class="icon">
-   				<i class="icon-mail"></i>
-   			</div>
-
-   			<h5>Email Me At</h5>
-
-   			<p>ia2637@columbia.edu</p>
-
-   		</div>
-
-   		<div class="col-four tab-full">
-
-   			<div class="icon">
-   				<i class="icon-phone"></i>
-   			</div>
-
-   			<h5>Call Me At</h5>
-
-   			<p>Phone: (+1) 437 221 1041</p>
-
-   		</div>
-   		
-   	</div> <!-- /contact-info -->
-		
-	</section> <!-- /contact -->
-
-
-   <div id="preloader"> 
-    	<div id="loader"></div>
-   </div> 
-
-   <!-- Java Script
-   ================================================== --> 
-   <script src="js/jquery-2.1.3.min.js"></script>
-   <script src="js/plugins.js"></script>
-   <script src="js/main.js"></script>
-
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="bar">
+    <a class="bar__name" href="#top"><span class="bar__dot" aria-hidden="true"></span>Izum Adnan</a>
+    <nav aria-label="Sections">
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#education">Education</a>
+      <a href="#credentials">Credentials</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a class="btn" href="Izum%20Adnan%20-%20Resume.pdf" download>Download resume</a>
+  </header>
+
+  <main id="main">
+    <!-- Hero -->
+    <section class="hero" id="top" aria-labelledby="hero-name">
+      <h1 class="sr-only" id="hero-name">Izum Adnan</h1>
+      <div class="hero__stage">
+        <canvas id="pipeline" aria-hidden="true"></canvas>
+        <div class="hero__readout" aria-live="off">
+          <span>Screened <b id="r-in">0</b> of 1,247</span>
+          <span class="kept">Kept <b id="r-kept">0</b></span>
+          <span class="dropped">Filtered out <b id="r-drop">0</b></span>
+          <button class="hero__replay" id="replay" type="button">Run it again</button>
+        </div>
+      </div>
+
+      <div class="hero__intro">
+        <p class="hero__caption">1,247 points go in and a screening gate decides which ones make the cut. It is a small nod to my thesis pipeline, which screened 1,247 research records.</p>
+        <div>
+          <p class="hero__lead">I build software that takes slow, manual work off people's plates. Master's in Machine Learning at Columbia, co-founder of SettleWise, based in New York City.</p>
+          <div class="hero__actions">
+            <a class="btn" href="#experience">See my work</a>
+            <a class="btn btn--ghost" href="mailto:ia2637@columbia.edu">Email me</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section class="section" id="about" aria-labelledby="about-h">
+      <div class="section__head">
+        <h2 id="about-h">About me</h2>
+      </div>
+      <div class="about">
+        <img class="about__photo" src="images/portfolio/profile-pic.jpg" alt="Portrait of Izum Adnan" width="378" height="428">
+        <div class="about__body">
+          <div class="about__text">
+            <p>I'm a computer scientist who cares about writing good code and shipping things people actually use. I graduated from Western University with an Honours Specialization in Computer Science and I'm now doing my Master's in Computer Science at Columbia, specializing in Machine Learning.</p>
+            <p>Most of my code is in Python, Java, JavaScript, TypeScript, C/C++, PHP and SQL. I've built full-stack apps with Next.js, React and Node.js, and shipped enterprise automation on Blue Prism, SAP and Azure. My research has applied NLP to real evidence-synthesis problems.</p>
+            <p>I led an eight-person AI team at Western AI to 2nd place out of 56 at a Canadian undergraduate conference. Through two startup labs I've taken ideas from problem discovery to pitch, and one of them became SettleWise. I'm also designing a number-sense game for students with special needs with Wellbotics and Teachers College.</p>
+          </div>
+          <dl class="facts">
+            <div><dt>Right now</dt><dd>MSCS, Machine Learning, Columbia University (expected Dec 2027)</dd></div>
+            <div><dt>Before that</dt><dd>BSc, Honours Specialization in Computer Science, Western University</dd></div>
+            <div><dt>Building</dt><dd>SettleWise, as co-founder and lead software developer</dd></div>
+            <div><dt>Based in</dt><dd>New York City, NY</dd></div>
+            <div><dt>Find me on</dt><dd><a href="https://www.linkedin.com/in/izum-adnan/" target="_blank" rel="noopener">LinkedIn</a> and <a href="https://github.com/Izum10" target="_blank" rel="noopener">GitHub</a></dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience -->
+    <section class="section section--tint" id="experience" aria-labelledby="exp-h">
+      <div class="section__head">
+        <h2 id="exp-h">Experience</h2>
+        <p>Practical work that let me put my coding to use on real problems, in industry and on a startup team.</p>
+      </div>
+
+      <article class="row">
+        <div class="row__when"><span class="now">Now</span><br>Sep 2026 – Present<br>New York, NY</div>
+        <div class="row__main">
+          <div class="row__body">
+            <h3>Co-Founder &amp; Lead Software Developer</h3>
+            <p class="row__org">SettleWise</p>
+            <ul>
+              <li>Directing full-stack development of a live NYC apartment decision-support web app, owning the architecture from the Next.js and TypeScript front end through a Python FastAPI back end with Firebase, deployed on Railway.</li>
+              <li>Shipped and presented the MVP, which pairs one-click listing import with weighted priority ranking so renters can compare their options side by side.</li>
+              <li>Spearheading AI integration into the platform, including an agentic workflow where research-grounded personas critique each release before it ships.</li>
+              <li>Delivering weekly sprint progress with a team of four, turning user interview feedback into scoped requirements.</li>
+            </ul>
+          </div>
+          <div class="figures">
+            <div class="figure"><b>~5 wks</b><span>from start to a shipped MVP</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="row">
+        <div class="row__when">May 2024 – Aug 2025<br>Toronto, ON</div>
+        <div class="row__main">
+          <div class="row__body">
+            <h3>Robotic Process Automation Developer Co-op</h3>
+            <p class="row__org">Celestica</p>
+            <ul>
+              <li>Led two enterprise-grade automation deployments integrating Blue Prism, SAP and Azure Bots across global manufacturing operations.</li>
+              <li>Built a business-analytics automation that processes high-volume SAP inputs, validates data integrity and triggers conditional workflows across departments, raising projected annual savings from roughly $80K to $95K.</li>
+              <li>Developed an endpoint-validation automation that tests live production endpoints, cutting downtime incidents across RPA processes by 70%.</li>
+              <li>Worked with cross-functional teams across North America, Europe and Asia to map workflows and turn inefficiencies into scalable automation.</li>
+            </ul>
+          </div>
+          <div class="figures">
+            <div class="figure"><b>70%</b><span>fewer RPA downtime incidents</span></div>
+            <div class="figure"><b>$95K</b><span>projected annual savings, up from $80K</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="row">
+        <div class="row__when">Sep 2022 – Mar 2023<br>London, ON</div>
+        <div class="row__main">
+          <div class="row__body">
+            <h3>AI Developer &amp; Architect</h3>
+            <p class="row__org">Western AI</p>
+            <ul>
+              <li>Project lead for a team of eight building a competitive AI agent, driving architecture, testing and execution end to end.</li>
+              <li>Worked within a multidisciplinary group focused on applied machine learning, agent behaviour and game intelligence research.</li>
+              <li>Presented the team's work at a three-day multi-university conference and placed 2nd. The architecture was later reused internally as a template for future agent-based research.</li>
+            </ul>
+          </div>
+          <div class="figures">
+            <div class="figure"><b>2nd / 56</b><span>at CUCAI, the Canadian Undergraduate Conference on AI</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="row">
+        <div class="row__when">Jun 2020 – Mar 2021<br>Oman</div>
+        <div class="row__body">
+          <h3>Program Development Intern</h3>
+          <p class="row__org">Deloitte (Oman Branch)</p>
+          <p>Designed and built an internal time-tracking automation tool using PHP, SQL, HTML and CSS, replacing a fully manual process for chargeable-hour computation. Implemented server-side logic to calculate costs, validate entries and generate reporting tables for management, which made reporting faster and more accurate.</p>
+        </div>
+      </article>
+
+      <article class="row">
+        <div class="row__when">Mar 2019 – Apr 2019<br>Dubai, UAE</div>
+        <div class="row__body">
+          <h3>Database Management Intern</h3>
+          <p class="row__org">King's College Hospital (Dubai)</p>
+          <p>Shadowed senior technical staff to learn how data systems connect with administrative, marketing and clinical operations. Used MS Access across a range of database operations, spotted redundancies in data flow and suggested restructuring that improved efficiency.</p>
+        </div>
+      </article>
+    </section>
+
+    <!-- Projects -->
+    <section class="section" id="projects" aria-labelledby="proj-h">
+      <div class="section__head">
+        <h2 id="proj-h">Projects &amp; research</h2>
+        <p>Open any project for the details. You can find more of my code on <a href="https://github.com/Izum10" target="_blank" rel="noopener">GitHub</a>.</p>
+      </div>
+
+      <div class="projects">
+        <details class="project">
+          <summary>
+            <span class="project__when"><span class="now">Now</span> Sep 2026 – Present</span>
+            <span class="project__title">AI cancer detection research <span class="nda">Signed NDA</span><span class="project__kind">GILMLab, Columbia University</span></span>
+            <span class="project__toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="project__panel"><div>
+            <p>Supervised research on AI for cancer detection in Dr. Corey Toler-Franklin's Graphics Imaging &amp; Light Measurement Lab. The work is covered by a signed NDA, so I keep the details off this page.</p>
+            <ul class="tags"><li>Machine learning</li><li>Research</li></ul>
+          </div></div>
+        </details>
+
+        <details class="project">
+          <summary>
+            <span class="project__when"><span class="now">Now</span> Sep 2026 – Present</span>
+            <span class="project__title">Adaptive educational game for learners with special needs<span class="project__kind">Wellbotics with Teachers College, Columbia</span></span>
+            <span class="project__toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="project__panel"><div>
+            <p>Building an interactive cardinality game for middle school students with special needs, as part of an eight-member game design cohort in partnership with Teachers College, Columbia.</p>
+            <p>Testing tangible gameplay with students and educators at four elementary and middle schools to check usability and accessibility, then adjusting the design based on how they play and what they tell us.</p>
+            <ul class="tags"><li>Game design</li><li>Accessibility</li><li>User testing</li></ul>
+          </div></div>
+        </details>
+
+        <details class="project">
+          <summary>
+            <span class="project__when">Sep 2025 – May 2026</span>
+            <span class="project__title">AI-driven scoping review pipeline for physiotherapy research<span class="project__kind">Undergraduate thesis, Western University</span></span>
+            <span class="project__toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="project__panel"><div>
+            <div class="row__main">
+              <div>
+                <p>Designed and integrated an end-to-end scoping review automation pipeline in Python, replacing a manual multi-stage workflow. Supervised by Dr. Pavlos Bobos.</p>
+                <p>Trained an SVM and TF-IDF classifier for title-and-abstract screening across 1,247 records. Automated structured data extraction with rule-based NER, filling key fields for 78% of included articles without manual input. Total reviewer time dropped from 38 hours to 13.5 against a two-reviewer baseline, with reproducible outputs.</p>
+                <ul class="tags"><li>Python</li><li>PubMed API</li><li>Pandas</li><li>scikit-learn</li><li>spaCy</li><li>NLP</li></ul>
+              </div>
+              <div class="figures">
+                <div class="figure"><b>0.91</b><span>recall on screening</span></div>
+                <div class="figure"><b>0.82</b><span>F1 across 1,247 records</span></div>
+                <div class="figure"><b>64%</b><span>less reviewer time</span></div>
+              </div>
+            </div>
+          </div></div>
+        </details>
+
+        <details class="project">
+          <summary>
+            <span class="project__when">Sep 2022 – Mar 2023</span>
+            <span class="project__title">Competitive Counter-Strike AI agent<span class="project__kind">Western AI</span></span>
+            <span class="project__toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="project__panel"><div>
+            <p>As project lead for a team of eight, I designed a competitive AI agent for Counter-Strike built around graph-based navigation, heuristic pathfinding and dynamic decision trees. I analyzed real gameplay patterns to tune the agent's response time, error margins and unpredictability so it played more like a person.</p>
+            <p>We presented it at a three-day multi-university conference, where it placed 2nd out of 56 groups. The architecture was later referenced internally as a template for future agent-based research.</p>
+            <ul class="tags"><li>AI agents</li><li>Pathfinding</li><li>Decision trees</li><li>Team lead</li></ul>
+            <a class="project__link" href="https://github.com/Izum10/Western-AI-CSGO-Project" target="_blank" rel="noopener">View the code on GitHub</a>
+          </div></div>
+        </details>
+
+        <details class="project">
+          <summary>
+            <span class="project__when">Mar 2023</span>
+            <span class="project__title">IveyHacks x Cyder hackathon<span class="project__kind">Ivey Business School, Western University</span></span>
+            <span class="project__toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="project__panel"><div>
+            <p>A hybrid business-analytics and hackathon competition hosted by Ivey Business School. We analyzed Cyder's platform for usability issues and onboarding friction, then built a demo user-adoption and training strategy with micro-learning modules and adoption checkpoints. Judges responded well to how it could fit into Cyder's UX roadmap.</p>
+            <ul class="tags"><li>UX research</li><li>Business analytics</li><li>Product strategy</li></ul>
+          </div></div>
+        </details>
+
+        <details class="project">
+          <summary>
+            <span class="project__when">Sep 2023 – Nov 2023</span>
+            <span class="project__title">Whac-A-Mole game<span class="project__kind">Hardware project on Raspberry Pi</span></span>
+            <span class="project__toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="project__panel"><div>
+            <p>An embedded, interactive Whac-A-Mole built on Raspberry Pi with LED matrices, GPIO input and real-time timing logic. I modelled the system flow with state machines and wrote scoring algorithms with variable difficulty scaling, then ran performance tests to tune response windows and measure average player reaction speed.</p>
+            <ul class="tags"><li>Embedded systems</li><li>Raspberry Pi</li><li>GPIO</li><li>State machines</li></ul>
+            <a class="project__link" href="https://github.com/Izum10/Whac-A-Mole_LEDGame" target="_blank" rel="noopener">View the code on GitHub</a>
+          </div></div>
+        </details>
+
+        <details class="project">
+          <summary>
+            <span class="project__when">Sep 2022 – Dec 2022</span>
+            <span class="project__title">Western Geographic Information System<span class="project__kind">Desktop app in Java and JavaFX</span></span>
+            <span class="project__toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="project__panel"><div>
+            <p>An indoor building navigation app built on Western's GIS datasets. It uses layered spatial data structures for pathfinding between buildings and interior areas, and adds real-time weather context to location queries through the OpenWeather API.</p>
+            <ul class="tags"><li>Java</li><li>JavaFX</li><li>Maven</li><li>JSON</li><li>OpenWeather API</li></ul>
+            <a class="project__link" href="https://github.com/Izum10/Western_Navigation_System" target="_blank" rel="noopener">View the code on GitHub</a>
+          </div></div>
+        </details>
+
+        <details class="project">
+          <summary>
+            <span class="project__when">Jun 2020 – Mar 2021</span>
+            <span class="project__title">Time sheet distributor and calculator<span class="project__kind">Built for a Deloitte regional manager</span></span>
+            <span class="project__toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="project__panel"><div>
+            <p>An internal time-tracking tool for Deloitte's Oman branch. It automates the calculation and distribution of chargeable hours across employees, with server-side logic for cost calculation, entry validation and management reports. It replaced a fully manual process and shipped to production.</p>
+            <ul class="tags"><li>PHP</li><li>SQL</li><li>HTML</li><li>CSS</li></ul>
+            <a class="project__link" href="https://github.com/Izum10/IB-Computer-Science-IA" target="_blank" rel="noopener">View the code on GitHub</a>
+          </div></div>
+        </details>
+
+        <details class="project">
+          <summary>
+            <span class="project__when">Jan 2021 – Jul 2021</span>
+            <span class="project__title">Harvard CS50 game development<span class="project__kind">Harvard University</span></span>
+            <span class="project__toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="project__panel"><div>
+            <p>Harvard's game development course, covering the programming behind 2D and 3D games. I built 11 games over the course of the program.</p>
+            <ul class="tags"><li>2D games</li><li>3D games</li><li>Game development</li></ul>
+            <a class="project__link" href="https://github.com/Izum10/Harvard-CS50" target="_blank" rel="noopener">View the code on GitHub</a>
+          </div></div>
+        </details>
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section class="section section--tint" id="education" aria-labelledby="edu-h">
+      <div class="section__head">
+        <h2 id="edu-h">Education</h2>
+      </div>
+
+      <article class="row">
+        <div class="row__when"><span class="now">Now</span><br>Sep 2026 – Dec 2027<br>New York, NY</div>
+        <div class="row__body">
+          <h3>Master of Science in Computer Science, Machine Learning</h3>
+          <p class="row__org">Columbia University, Fu Foundation School of Engineering and Applied Science</p>
+          <p>Specializing in Machine Learning and building applied AI that automates real workflows. I'm part of two startup labs, developing a cardinality game for learners with special needs, and doing research in the AI and cancer space.</p>
+          <ul class="tags"><li>Databases</li><li>Computation &amp; the Brain</li><li>AI-Accelerated Startup Lab</li><li>AI cancer research</li></ul>
+        </div>
+      </article>
+
+      <article class="row">
+        <div class="row__when">Sep 2021 – May 2026<br>London, ON</div>
+        <div class="row__main">
+          <div class="row__body">
+            <h3>Bachelor of Science, Honours Specialization in Computer Science</h3>
+            <p class="row__org">Western University</p>
+            <p>Completed an undergraduate thesis on automated scoping review pipelines under the supervision of Dr. Pavlos Bobos. Coursework covered operating systems, analysis of algorithms, theory of computing, artificial intelligence, software engineering, databases and computer architecture.</p>
+            <ul class="tags"><li>Artificial Intelligence</li><li>Analysis of Algorithms</li><li>Data Structures</li><li>Software Engineering</li><li>Operating Systems</li><li>Information Systems</li></ul>
+          </div>
+          <div class="figures">
+            <div class="figure"><b>3.81</b><span>GPA out of 4.0</span></div>
+            <div class="figure"><b>2×</b><span>Dean's Honor List</span></div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- Credentials -->
+    <section class="section" id="credentials" aria-labelledby="cred-h">
+      <div class="section__head">
+        <h2 id="cred-h">Certificates, awards &amp; skills</h2>
+      </div>
+      <div class="creds">
+        <ul class="creds__list">
+          <li><strong>AWS Certified Cloud Practitioner</strong><span>Amazon Web Services, Jul 2025</span><p>Cloud fundamentals across core services, architecture, security and pricing.</p></li>
+          <li><strong>IBM Z Xplore</strong><span>IBM, 2025</span><p>All three tiers, covering enterprise mainframe systems, z/OS fundamentals and advanced platform concepts.</p></li>
+          <li><strong>Blue Prism Foundations</strong><span>BP3 Global, May 2024</span><p>The RPA platform I went on to build production automations with at Celestica.</p></li>
+          <li><strong>IBM Software Engineering (Back-End)</strong><span>IBM, May 2023</span><p>Software engineering practice across back-end and front-end development.</p></li>
+          <li><strong>Java &amp; Software Engineering Specialization</strong><span>Duke University, Jun 2022 – Nov 2022</span><p>Completed with Honors with Distinction.</p></li>
+          <li><strong>CS50 Game Development</strong><span>Harvard University, 2021</span><p>2D and 3D game programming, with 11 games built.</p></li>
+          <li class="award"><strong>2nd of 56, "Project Valorant"</strong><span>CUCAI, Mar 2023</span><p>For the AI agent I led within Western AI.</p></li>
+          <li class="award"><strong>Dean's Honor List</strong><span>Western University, 2023–2024 and 2025–2026</span><p>For keeping an A average across the academic year, twice.</p></li>
+        </ul>
+
+        <div class="skills">
+          <div>
+            <h3>Languages</h3>
+            <ul class="tags"><li>Python</li><li>Java</li><li>JavaScript</li><li>TypeScript</li><li>C</li><li>C++</li><li>PHP</li><li>R</li><li>SQL</li><li>HTML</li><li>CSS</li></ul>
+          </div>
+          <div>
+            <h3>Frameworks and ML</h3>
+            <ul class="tags"><li>Next.js</li><li>React</li><li>Node.js</li><li>FastAPI</li><li>Pandas</li><li>scikit-learn</li><li>spaCy</li><li>Data modelling</li></ul>
+          </div>
+          <div>
+            <h3>Platforms and tools</h3>
+            <ul class="tags"><li>AWS</li><li>Microsoft Azure</li><li>Firebase</li><li>Railway</li><li>Blue Prism</li><li>SAP</li><li>MySQL</li><li>MS Access</li><li>Microsoft Office</li></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Contact -->
+  <footer class="contact" id="contact" aria-labelledby="contact-h">
+    <div class="contact__grid">
+      <div>
+        <h2 id="contact-h">Let's build something.</h2>
+        <p class="contact__lead">I'm looking for Summer 2027 internships in software engineering and AI. If you're hiring, working on something interesting, or just want to talk, I'd love to hear from you.</p>
+        <div class="email">
+          <a href="mailto:ia2637@columbia.edu">ia2637@columbia.edu</a>
+          <button class="copy" id="copy-email" type="button" data-email="ia2637@columbia.edu">Copy email</button>
+        </div>
+        <ul class="contact__links">
+          <li><span>LinkedIn</span><a href="https://www.linkedin.com/in/izum-adnan/" target="_blank" rel="noopener">linkedin.com/in/izum-adnan</a></li>
+          <li><span>GitHub</span><a href="https://github.com/Izum10" target="_blank" rel="noopener">github.com/Izum10</a></li>
+          <li><span>Phone</span><a href="tel:+14372211041">+1 437 221 1041</a></li>
+          <li><span>Location</span><p>New York City, NY</p></li>
+        </ul>
+        <div class="foot">
+          <span>© 2026 Izum Adnan</span>
+          <a href="#top">Back to top</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/site.js"></script>
 </body>
-
 </html>
