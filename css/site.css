@@ -88,17 +88,31 @@ a { color: inherit; }
   margin: 0; max-width: 26ch;
 }
 .hero__lead span { display: block; color: var(--ink-3); font-weight: 400; font-size: .7em; letter-spacing: 0; margin-top: .6rem; }
-.hero__meta {
-  font-family: var(--display); font-size: .85rem; color: var(--ink-3);
-  font-variant-numeric: tabular-nums; text-align: right; line-height: 1.5;
+.hero__game { display: flex; align-items: center; gap: 1.1rem; max-width: 32rem; }
+.hero__hud {
+  margin: 0; font-family: var(--display); font-size: .88rem; color: var(--ink-3);
+  font-variant-numeric: tabular-nums; line-height: 1.45; text-align: right;
 }
-.hero__meta b { color: var(--ink); font-weight: 600; }
-.hero__replay {
-  font: inherit; color: var(--ink-2); background: none; border: 0; padding: 0; margin-left: .75rem;
-  text-decoration: underline; text-underline-offset: 3px; cursor: pointer;
+.hero__hud b { color: var(--ink); font-weight: 700; }
+.hero__hud b.miss { color: var(--signal); }
+.play {
+  flex: none; font-family: var(--display); font-weight: 700; font-size: 1rem;
+  color: var(--paper); background: var(--ink); border: 0; cursor: pointer;
+  padding: .85rem 1.5rem; border-radius: 999px; position: relative;
+  transition: background .2s, transform .15s;
 }
-.hero__replay:hover { color: var(--blue); }
-@media (max-width: 640px) { .hero__meta { text-align: left; } }
+.play::after {
+  content: ""; position: absolute; inset: -5px; border-radius: inherit;
+  border: 1.5px solid var(--signal); opacity: .7; animation: ring 2.6s infinite;
+}
+.play:hover { background: var(--blue); }
+.play:active { transform: scale(.97); }
+@keyframes ring { 0% { transform: scale(.94); opacity: .8; } 100% { transform: scale(1.18); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .play::after { animation: none; opacity: .5; } }
+.hero canvas.is-playing { cursor: crosshair; touch-action: none; }
+.hero:has(canvas.is-playing) .hero__foot { cursor: crosshair; }
+.hero:has(canvas.is-playing) .hero__lead { opacity: .35; transition: opacity .3s; }
+@media (max-width: 640px) { .hero__game { width: 100%; justify-content: space-between; } .hero__hud { text-align: left; } }
 
 /* ---------- sections ---------- */
 .section { padding: clamp(5rem, 13vw, 10rem) var(--gutter) 0; }

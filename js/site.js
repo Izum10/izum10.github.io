@@ -9,7 +9,6 @@
   const elIn = document.getElementById("r-in");
   const elKept = document.getElementById("r-kept");
   const elDrop = document.getElementById("r-drop");
-  const replay = document.getElementById("replay");
 
   const css = getComputedStyle(document.documentElement);
   const INK = css.getPropertyValue("--ink").trim() || "#0f1c3a";
@@ -26,6 +25,10 @@
   let raf = 0;
   let visible = true;
   const glow = { x: 0, y: 0, r: 0 };
+  const GAME_MS = 30000;
+  const game = { on: false, start: 0, enemies: [], sparks: [], blocked: 0, missed: 0, nextSpawn: 0 };
+  const hud = document.getElementById("hud");
+  const playBtn = document.getElementById("play");
 
   function sampleTargets() {
     const off = document.createElement("canvas");
@@ -150,7 +153,7 @@
       } else if (p.state === "settle") {
         const dx = p.tx - p.x, dy = p.ty - p.y;
         p.vx += dx * 0.012; p.vy += dy * 0.012;
-        if (pointer.active) {
+        if (pointer.active && !game.on) {
           const px = p.x - pointer.x, py = p.y - pointer.y;
           const d2 = px * px + py * py, R = 90;
           if (d2 < R * R && d2 > 0.01) {
@@ -163,8 +166,122 @@
       } else if (p.state === "drop") {
         p.vy += 0.18; p.x += p.vx; p.y += p.vy; p.a -= 0.012;
         if (p.a <= 0 || p.y > H + 20) p.state = "gone";
+      } else if (p.state === "knocked") {
+        p.vy += 0.25; p.vx *= 0.99; p.x += p.vx; p.y += p.vy;
+        if (p.y > H + 30) { p.vx = 0; p.vy = 0; p.y = H + 30; }
       }
     }
+    if (game.on) stepGame(now);
+    for (let i = game.sparks.length - 1; i >= 0; i--) {
+      const s = game.sparks[i];
+      s.x += s.vx; s.y += s.vy; s.vx *= 0.92; s.vy *= 0.92; s.a -= 0.035;
+      if (s.a <= 0) game.sparks.splice(i, 1);
+    }
+  }
+
+  /* ---------- the game: block the bad records before they hit the name ---------- */
+  function settled() { return particles.filter((p) => p.keep && p.state === "settle"); }
+
+  function spawnEnemy(elapsed) {
+    const pool = settled();
+    if (!pool.length) return;
+    const target = pool[(Math.random() * pool.length) | 0];
+    const side = Math.random();
+    let x, y;
+    if (side < 0.55) { x = W + 20; y = Math.random() * H; }
+    else if (side < 0.8) { x = Math.random() * W; y = -20; }
+    else { x = Math.random() * W; y = H + 20; }
+    const speed = 1.3 + (elapsed / GAME_MS) * 2.8 + Math.random() * 0.7;
+    game.enemies.push({ x, y, target, speed, wob: Math.random() * 6.28 });
+  }
+
+  function burst(x, y, color, n) {
+    for (let i = 0; i < n; i++) {
+      const a = Math.random() * 6.28, v = 2 + Math.random() * 5;
+      game.sparks.push({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, a: 1, color });
+    }
+  }
+
+  function stepGame(now) {
+    const elapsed = now - game.start;
+    if (elapsed >= GAME_MS) return endGame();
+    if (now >= game.nextSpawn) {
+      spawnEnemy(elapsed);
+      const gap = 900 - (elapsed / GAME_MS) * 620;
+      game.nextSpawn = now + gap * (0.6 + Math.random() * 0.8);
+    }
+    for (let i = game.enemies.length - 1; i >= 0; i--) {
+      const e = game.enemies[i];
+      const dx = e.target.x - e.x, dy = e.target.y - e.y;
+      const d = Math.hypot(dx, dy);
+      if (d < 7) {
+        // it got through: knock a chunk of the name loose
+        game.missed++;
+        burst(e.x, e.y, SIGNAL, 10);
+        const R = Math.max(18, size * 7);
+        for (const p of particles) {
+          if (p.state !== "settle") continue;
+          const px = p.x - e.x, py = p.y - e.y, pd = Math.hypot(px, py);
+          if (pd < R) {
+            p.state = "knocked";
+            p.vx = (px / (pd || 1)) * (2 + Math.random() * 4);
+            p.vy = (py / (pd || 1)) * (2 + Math.random() * 4) - 3;
+          }
+        }
+        game.enemies.splice(i, 1);
+        continue;
+      }
+      e.wob += 0.1;
+      e.x += (dx / d) * e.speed + Math.cos(e.wob) * 0.6;
+      e.y += (dy / d) * e.speed + Math.sin(e.wob) * 0.6;
+    }
+    const left = Math.ceil((GAME_MS - elapsed) / 1000);
+    hud.innerHTML = `Blocked <b>${game.blocked}</b>, missed <b class="miss">${game.missed}</b>, ${left}s left`;
+  }
+
+  function startGame() {
+    // make sure the name is fully formed first
+    particles.forEach((p) => {
+      if (p.keep && p.state !== "settle") {
+        if (p.state === "wait" || p.state === "stream") { p.x = p.tx; p.y = p.ty; }
+        p.state = "settle";
+      }
+      if (!p.keep) p.state = "gone";
+    });
+    Object.assign(game, { on: true, start: performance.now(), enemies: [], blocked: 0, missed: 0, nextSpawn: performance.now() + 500 });
+    canvas.classList.add("is-playing");
+    playBtn.textContent = "Stop";
+    if (!raf) raf = requestAnimationFrame(loop);
+  }
+
+  function endGame(stopped) {
+    game.on = false;
+    game.enemies.forEach((e) => burst(e.x, e.y, SIGNAL, 4));
+    game.enemies = [];
+    canvas.classList.remove("is-playing");
+    // heal the name: every knocked dot flies home
+    particles.forEach((p) => { if (p.state === "knocked") { p.state = "settle"; p.vx = 0; p.vy = 0; } });
+    const total = game.blocked + game.missed;
+    if (stopped || !total) {
+      hud.innerHTML = `Catch the bad records before they hit my name`;
+    } else {
+      const recall = (game.blocked / total).toFixed(2);
+      const verdict = recall >= 0.91 ? "You beat my thesis model (0.91)." : "My thesis model hit 0.91.";
+      hud.innerHTML = `Your recall <b>${recall}</b>, ${game.blocked} of ${total} blocked. ${verdict}`;
+    }
+    playBtn.textContent = total ? "Play again" : "Play";
+  }
+
+  function hitEnemy(x, y) {
+    const R = window.matchMedia("(pointer: coarse)").matches ? 38 : 26;
+    let best = -1, bestD = R;
+    game.enemies.forEach((e, i) => { const d = Math.hypot(e.x - x, e.y - y); if (d < bestD) { bestD = d; best = i; } });
+    if (best < 0) return false;
+    const e = game.enemies[best];
+    game.enemies.splice(best, 1);
+    game.blocked++;
+    burst(e.x, e.y, BLUE, 14);
+    return true;
   }
 
   function draw(now) {
@@ -202,16 +319,30 @@
         const dx = p.x - glow.x, dy = p.y - glow.y;
         ctx.fillStyle = moving || dx * dx + dy * dy < lit2 ? BLUE : INK; ctx.globalAlpha = 1;
       }
+      if (p.state === "knocked") { ctx.fillStyle = SIGNAL; ctx.globalAlpha = 0.8; }
       ctx.fillRect(p.x - size / 2, p.y - size / 2, size, size);
     }
     ctx.globalAlpha = 1;
+    for (const s of game.sparks) {
+      ctx.globalAlpha = Math.max(0, s.a); ctx.fillStyle = s.color;
+      ctx.fillRect(s.x - 1.5, s.y - 1.5, 3, 3);
+    }
+    ctx.globalAlpha = 1;
+    const es = Math.max(9, size * 2.4);
+    for (const e of game.enemies) {
+      ctx.fillStyle = SIGNAL;
+      ctx.fillRect(e.x - es / 2, e.y - es / 2, es, es);
+      ctx.strokeStyle = SIGNAL; ctx.globalAlpha = 0.35; ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.arc(e.x, e.y, es * 1.3 + Math.sin(e.wob * 2) * 2, 0, 6.28); ctx.stroke();
+      ctx.globalAlpha = 1;
+    }
   }
 
   let frame = 0;
   function loop(now) {
     if (visible) {
       step(now); draw(now);
-      if ((frame++ & 7) === 0) updateReadout(false);
+      if ((frame++ & 7) === 0 && !game.on && !game.start) updateReadout(false);
     }
     raf = requestAnimationFrame(loop);
   }
@@ -221,20 +352,34 @@
     pointer.x = e.clientX - r.left; pointer.y = e.clientY - r.top; pointer.active = true;
   }
   canvas.addEventListener("pointermove", setPointer);
-  canvas.addEventListener("pointerdown", setPointer);
+  // while playing, a tap anywhere on the hero (even over the text) can hit a record
+  let swallowClick = false;
+  canvas.parentElement.addEventListener("pointerdown", (e) => {
+    if (!game.on) return;
+    setPointer(e);
+    if (hitEnemy(pointer.x, pointer.y)) { e.preventDefault(); swallowClick = true; }
+  }, true);
   canvas.addEventListener("pointerleave", () => { pointer.active = false; });
 
-  replay.addEventListener("click", () => { build(); });
+  playBtn.addEventListener("click", () => {
+    if (swallowClick) { swallowClick = false; return; }
+    if (game.on) endGame(true); else startGame();
+  });
+  canvas.parentElement.addEventListener("click", () => { setTimeout(() => { swallowClick = false; }, 0); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && game.on) endGame(true); });
 
-  let rt;
+  let rt, lastW = window.innerWidth, lastH = window.innerHeight;
   window.addEventListener("resize", () => {
+    // phones resize when the address bar hides; only rebuild on real size changes
+    if (window.innerWidth === lastW && Math.abs(window.innerHeight - lastH) < 160) return;
+    lastW = window.innerWidth; lastH = window.innerHeight;
     clearTimeout(rt);
-    rt = setTimeout(() => { build(); if (reduce) finish(); }, 180);
+    rt = setTimeout(() => { if (game.on) endGame(true); build(); if (reduce) finish(); }, 180);
   });
 
   new IntersectionObserver((entries) => { visible = entries[0].isIntersecting; }).observe(canvas);
 
-  const go = () => { build(); if (!reduce) raf = requestAnimationFrame(loop); };
+  const go = () => { build(); if (!reduce) raf = requestAnimationFrame(loop); else draw(0); };
   if (document.fonts && document.fonts.load) {
     Promise.race([
       document.fonts.load(`800 100px ${DISPLAY}`),
