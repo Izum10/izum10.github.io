@@ -25,6 +25,7 @@
   let pointer = { x: -9999, y: -9999, active: false };
   let raf = 0;
   let visible = true;
+  const glow = { x: 0, y: 0, r: 0 };
 
   function sampleTargets() {
     const off = document.createElement("canvas");
@@ -40,10 +41,10 @@
     let fs = 100;
     o.font = `800 ${fs}px ${DISPLAY}`;
     const widest = Math.max(...lines.map((t) => o.measureText(t).width));
-    fs = Math.min(fs * (avail / widest), (H * (twoLines ? 0.8 : 0.62)) / lines.length);
+    fs = Math.min(fs * (avail / widest), (H * (twoLines ? 0.5 : 0.42)) / lines.length);
     o.font = `800 ${fs}px ${DISPLAY}`;
     const lh = fs * 0.95;
-    let y = (H - lh * lines.length) / 2 + fs * 0.78;
+    let y = (H * 0.9 - lh * lines.length) / 2 + fs * 0.78;
     lines.forEach((t) => { o.fillText(t, left, y); y += lh; });
     const data = o.getImageData(0, 0, W, H).data;
 
@@ -129,9 +130,7 @@
       }
     }
     if (final) { inn = TOTAL; kept = targets.length; drop = TOTAL - targets.length; }
-    elIn.textContent = inn.toLocaleString();
-    elKept.textContent = kept.toLocaleString();
-    elDrop.textContent = drop.toLocaleString();
+    if (elKept) elKept.textContent = kept.toLocaleString();
   }
 
   function step(now) {
@@ -168,16 +167,29 @@
     }
   }
 
-  function draw() {
+  function draw(now) {
     ctx.clearRect(0, 0, W, H);
+    // aura: a soft light that follows the pointer, or drifts over the name when idle
+    const t = (now || 0) / 1000;
+    const gx = pointer.active ? pointer.x : W * 0.5 + Math.cos(t * 0.35) * W * 0.28;
+    const gy = pointer.active ? pointer.y : H * 0.42 + Math.sin(t * 0.5) * H * 0.12;
+    if (!glow.r) { glow.x = gx; glow.y = gy; }
+    glow.x += (gx - glow.x) * 0.06; glow.y += (gy - glow.y) * 0.06;
+    glow.r = Math.max(W, H) * 0.32;
+    const g = ctx.createRadialGradient(glow.x, glow.y, 0, glow.x, glow.y, glow.r);
+    g.addColorStop(0, "rgba(155,203,235,0.55)");
+    g.addColorStop(0.5, "rgba(155,203,235,0.18)");
+    g.addColorStop(1, "rgba(155,203,235,0)");
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    const lit = glow.r * 0.45, lit2 = lit * lit;
     // the gate
     ctx.strokeStyle = RULE; ctx.lineWidth = 1;
     ctx.setLineDash([4, 6]);
-    ctx.beginPath(); ctx.moveTo(gateX, H * 0.1); ctx.lineTo(gateX, H * 0.9); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(gateX, H * 0.22); ctx.lineTo(gateX, H * 0.72); ctx.stroke();
     ctx.setLineDash([]);
     ctx.fillStyle = INK;
     ctx.font = `500 12px ${DISPLAY}`;
-    ctx.save(); ctx.translate(gateX - 8, H * 0.1); ctx.rotate(-Math.PI / 2);
+    ctx.save(); ctx.translate(gateX - 8, H * 0.22); ctx.rotate(-Math.PI / 2);
     ctx.textAlign = "right"; ctx.globalAlpha = 0.55; ctx.fillText("screening gate", 0, 0); ctx.restore();
     ctx.globalAlpha = 1;
 
@@ -187,7 +199,8 @@
       else if (p.state === "drop") { ctx.fillStyle = SIGNAL; ctx.globalAlpha = Math.max(0, p.a); }
       else {
         const moving = Math.abs(p.vx) + Math.abs(p.vy) > 0.6;
-        ctx.fillStyle = moving ? BLUE : INK; ctx.globalAlpha = 1;
+        const dx = p.x - glow.x, dy = p.y - glow.y;
+        ctx.fillStyle = moving || dx * dx + dy * dy < lit2 ? BLUE : INK; ctx.globalAlpha = 1;
       }
       ctx.fillRect(p.x - size / 2, p.y - size / 2, size, size);
     }
@@ -197,7 +210,7 @@
   let frame = 0;
   function loop(now) {
     if (visible) {
-      step(now); draw();
+      step(now); draw(now);
       if ((frame++ & 7) === 0) updateReadout(false);
     }
     raf = requestAnimationFrame(loop);
@@ -233,7 +246,7 @@
 /* Top bar border and current-section link */
 (function () {
   const bar = document.querySelector(".bar");
-  const onScroll = () => bar.classList.toggle("is-scrolled", window.scrollY > 8);
+  const onScroll = () => bar.classList.toggle("is-scrolled", window.scrollY > 40);
   onScroll();
   window.addEventListener("scroll", onScroll, { passive: true });
 
@@ -264,5 +277,18 @@
     }
     btn.textContent = "Copied"; btn.dataset.done = "true";
     setTimeout(() => { btn.textContent = "Copy email"; btn.dataset.done = "false"; }, 2000);
+  });
+})();
+
+/* Show more projects */
+(function () {
+  const btn = document.getElementById("more-projects");
+  if (!btn) return;
+  btn.addEventListener("click", () => {
+    const extra = document.querySelectorAll("[data-extra]");
+    const open = btn.getAttribute("aria-expanded") === "true";
+    extra.forEach((el) => { el.hidden = open; });
+    btn.setAttribute("aria-expanded", String(!open));
+    btn.textContent = open ? `Show ${extra.length} more projects` : "Show fewer projects";
   });
 })();
