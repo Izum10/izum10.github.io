@@ -35,8 +35,11 @@
     off.width = W; off.height = H;
     const o = off.getContext("2d", { willReadFrequently: true });
     const twoLines = W < 720;
-    const left = Math.max(W * 0.13, 48);
-    const avail = W - left - Math.max(W * 0.04, 20);
+    // keep the name inside the same centered column as the rest of the page
+    const rem = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+    const edge = Math.max(Math.min(W * 0.05, 72), (W - 84 * rem) / 2);
+    const left = Math.max(edge + W * 0.08, 48);
+    const avail = W - left - Math.max(edge, 20);
     const lines = twoLines ? ["Izum", "Adnan"] : ["Izum Adnan"];
     o.textBaseline = "alphabetic";
     o.fillStyle = "#000";
@@ -71,7 +74,7 @@
     }
     while (pts.length > cap) { gap *= 1.03; pts = sample(gap); }
     size = Math.max(1.6, gap * 0.6);
-    gateX = left * 0.55;
+    gateX = Math.max(14, left - Math.min(90, left * 0.45));
     return pts;
   }
 

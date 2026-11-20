@@ -15,7 +15,14 @@
   --gutter: clamp(1.25rem, 5vw, 4.5rem);
   --left: clamp(0rem, 14vw, 13rem);
   --measure: 36rem;
+  --maxw: 84rem;
+  /* side padding that grows on wide screens so content stays in a centered column */
+  --edge: max(var(--gutter), calc((100vw - var(--maxw)) / 2));
 }
+/* big monitors: scale everything up so it doesn't look tiny */
+@media (min-width: 1700px) { html { font-size: 18px; } }
+@media (min-width: 2200px) { html { font-size: 20px; } }
+@media (min-width: 2800px) { html { font-size: 23px; } }
 
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
@@ -46,7 +53,7 @@ a { color: inherit; }
 .bar {
   position: fixed; inset: 0 0 auto 0; z-index: 20;
   display: flex; align-items: center; justify-content: space-between; gap: 1rem;
-  padding: 1.1rem var(--gutter);
+  padding: 1.1rem var(--edge);
   transition: background .3s, padding .3s;
 }
 .bar.is-scrolled {
@@ -62,11 +69,19 @@ a { color: inherit; }
 .bar__dot { width: .5rem; height: .5rem; background: var(--blue); }
 .bar__right { display: flex; align-items: center; gap: clamp(1rem, 2.5vw, 2.25rem); }
 .bar nav { display: flex; gap: clamp(1rem, 2.5vw, 2.25rem); }
-.bar nav a, .bar__resume {
+.bar nav a {
   font-family: var(--display); font-size: .95rem; text-decoration: none; color: var(--ink-2);
 }
-.bar nav a:hover, .bar__resume:hover { color: var(--ink); }
-.bar__resume { font-weight: 600; color: var(--ink); border-bottom: 1.5px solid var(--blue); padding-bottom: 1px; }
+.bar nav a:hover { color: var(--ink); }
+.bar__resume {
+  display: inline-flex; align-items: center; gap: .5rem;
+  font-family: var(--display); font-weight: 600; font-size: .92rem; text-decoration: none;
+  color: var(--paper); background: var(--ink); padding: .6rem 1.1rem; border-radius: 999px;
+  box-shadow: 0 8px 20px -10px rgba(15,28,58,.6);
+  transition: background .2s, transform .15s;
+}
+.bar__resume svg { width: 1rem; height: 1rem; flex: none; }
+.bar__resume:hover { background: var(--blue); transform: translateY(-1px); }
 @media (max-width: 640px) { .bar nav { display: none; } }
 
 /* ---------- hero: the one loud moment ---------- */
@@ -78,7 +93,7 @@ a { color: inherit; }
 .hero__foot {
   position: relative; margin-top: auto;
   display: flex; justify-content: space-between; align-items: flex-end; gap: 2rem; flex-wrap: wrap;
-  padding: 0 var(--gutter) clamp(1.5rem, 4vh, 2.75rem);
+  padding: 0 var(--edge) clamp(1.5rem, 4vh, 2.75rem);
   pointer-events: none;
 }
 .hero__foot > * { pointer-events: auto; }
@@ -115,20 +130,23 @@ a { color: inherit; }
 @media (max-width: 640px) { .hero__game { width: 100%; justify-content: space-between; } .hero__hud { text-align: left; } }
 
 /* ---------- sections ---------- */
-.section { padding: clamp(5rem, 13vw, 10rem) var(--gutter) 0; }
+.section { padding: clamp(5rem, 11vw, 10rem) var(--edge) 0; }
 .section__title {
   font-family: var(--display); font-weight: 700;
   font-size: clamp(2.4rem, 6vw, 5rem); line-height: .95; letter-spacing: -0.045em;
-  margin: 0 0 clamp(2rem, 4vw, 3rem) var(--left);
+  margin: 0 0 clamp(2rem, 4vw, 3rem);
 }
 @media (max-width: 760px) { .section__title { margin-left: 0; } }
 
 /* about */
 .about {
-  display: grid; grid-template-columns: var(--left) minmax(0, 1fr); gap: 0 var(--gutter);
+  display: grid; grid-template-columns: minmax(14rem, 22rem) minmax(0, 1fr); gap: 0 clamp(2rem, 5vw, 5rem);
   align-items: start;
 }
-.about__photo { width: 100%; max-width: 11rem; aspect-ratio: 4 / 5; object-fit: cover; }
+.about__photo {
+  width: 100%; height: auto; aspect-ratio: 378 / 428; object-fit: cover;
+  border-radius: 6px; box-shadow: 0 30px 60px -30px rgba(15,28,58,.35);
+}
 .about p {
   margin: 0; max-width: 32ch;
   font-family: var(--display); font-weight: 500;
@@ -141,7 +159,7 @@ a { color: inherit; }
 }
 @media (max-width: 760px) {
   .about { grid-template-columns: minmax(0, 1fr); }
-  .about__photo { width: 7rem; margin-bottom: 1.75rem; }
+  .about__photo { width: min(70%, 18rem); max-width: none; margin-bottom: 2rem; }
 }
 
 /* ---------- list of entries (experience, projects) ---------- */
@@ -249,7 +267,7 @@ a { color: inherit; }
 .contact {
   margin-top: clamp(6rem, 14vw, 11rem);
   background: var(--ink); color: var(--paper);
-  padding: clamp(5rem, 12vw, 9rem) var(--gutter) 2rem;
+  padding: clamp(5rem, 12vw, 9rem) var(--edge) 2rem;
   position: relative; overflow: hidden;
 }
 .contact::before {
